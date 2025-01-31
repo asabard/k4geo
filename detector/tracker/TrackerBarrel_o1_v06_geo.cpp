@@ -77,7 +77,7 @@ void populateNeighbourData(NeighbourSurfacesData* neighbourSurfacesData, UTIL::B
 
 }
 
-ZPlanarData::LayerLayout buildLayerLayout(double radius, int staves, double phi0, double z0, Volume module, PlacedVolume sensor) {
+ZPlanarData::LayerLayout buildLayerLayout(double radius, int staves, double phi0, int nsensors, double z0, Volume module, PlacedVolume sensor) {
     ZPlanarData::LayerLayout thisLayer ;
     /// GET GEAR INFORMATION
     /// NOTE WORKS ONLY FOR ONE WAFER
@@ -105,6 +105,8 @@ ZPlanarData::LayerLayout buildLayerLayout(double radius, int staves, double phi0
     //Changed by Thorben Quast (same applies to zHalfSupport)
     //z0 = center of most right sensor, comp_shape-GetDY() = half length of one sensitive are of the module
     thisLayer.zHalfSensitive    = z0 + comp_shape->GetDY();
+    thisLayer.sensorsPerLadder = nsensors;
+    thisLayer.lengthSensor = 2 * thisLayer.zHalfSensitive / nsensors;
     thisLayer.widthSensitive = 2*comp_shape->GetDX();
     thisLayer.ladderNumber = staves;
     thisLayer.phi0 =  phi0;
@@ -228,7 +230,7 @@ static Ref_t create_detector(Detector& theDetector, xml_h e, SensitiveDetector s
         DetElement lay_elt(sdet,_toString(x_layer.id(),"layer%d"),lay_id);
         Placements& waferVols = sensitives[m_nam];
 
-        ZPlanarData::LayerLayout thisLayer = buildLayerLayout(rc, nphi, phi0, z0, sensorVol, waferVols[0]);
+        ZPlanarData::LayerLayout thisLayer = buildLayerLayout(rc, nphi, phi0, nz, z0, sensorVol, waferVols[0]);
         zPlanarData->layers.push_back(thisLayer);
 
         Assembly stave("stave");
