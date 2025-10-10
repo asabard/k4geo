@@ -28,6 +28,13 @@
         <constant name="InnerTracker_Endcap_radius_4" value="249.5*mm"/>
         <constant name="InnerTracker_Endcap_radius_5" value="293*mm"/>
         <constant name="InnerTracker_Endcap_radius_6" value="330*mm"/>
+        <constant name="InnerTrackerEndcap_PixSize_x" value="0.050*mm"/>
+
+
+
+	    <constant name="InnerTrackerEndcap_PixSize_y" value="0.300*mm"/>
+	    <constant name="InnerTrackerEndcap_FirstLayer_PixSize_x" value="0.025*mm"/>
+	    <constant name="InnerTrackerEndcap_FirstLayer_PixSize_y" value="0.025*mm"/>
 
         <constant name="VertexCoolingGap"            value="5*mm"/>
         <constant name="VertexCoolingShellThickness" value="1*mm"/>
