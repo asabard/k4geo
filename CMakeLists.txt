@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 
+if( POLICY CMP0167 )
+  cmake_policy(SET CMP0167 NEW)
+endif()
+
 #---------------------------
 set( PackageName k4geo )
 #---------------------------
@@ -43,7 +47,7 @@ option(INSTALL_BEAMPIPE_STL_FILES "Download CAD files for building the detailed 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-find_package(DD4hep REQUIRED COMPONENTS DDRec DDG4 DDParsers)
+find_package(DD4hep 1.31 REQUIRED COMPONENTS DDRec DDG4 DDParsers)
 
 find_package ( ROOT REQUIRED COMPONENTS Geom GenVector)
 message ( STATUS "ROOT_VERSION: ${ROOT_VERSION}" )
@@ -152,6 +156,13 @@ endif()
 
 #Create this_package.sh file, and install
 dd4hep_instantiate_package(${PackageName})
+if(EXISTS "${PROJECT_BINARY_DIR}/this${PackageName}.sh")
+  message(STATUS "this${PackageName}.sh created successfully.")
+  # Replace the K4GEO environment variable with the path to the source
+  file(APPEND "${PROJECT_BINARY_DIR}/this${PackageName}.sh" "\nexport K4GEO=\"${CMAKE_CURRENT_SOURCE_DIR}\"")
+else()
+  message(WARNING "this${PackageName}.sh was not created.")
+endif()
 
 add_subdirectory(detectorSegmentations)
 add_subdirectory(detectorCommon)
@@ -214,7 +225,7 @@ if(INSTALL_BEAMPIPE_STL_FILES)
         )
     # Set main FCC url
     set(FCC_URL "https://fccsw.web.cern.ch/fccsw/filesForSimDigiReco")
-    set(STL_PATH "MDI_o1_v01/stl_files/Pipe_240430")
+    set(STL_PATH "stl_files/Pipe_240430")
 
     # Set the output directory where the file will be placed
     set(OUTPUT_DIR "${PROJECT_SOURCE_DIR}/FCCee/MDI/compact/${STL_PATH}")
@@ -242,6 +253,6 @@ if(INSTALL_BEAMPIPE_STL_FILES)
     endforeach()
 
     file(MAKE_DIRECTORY share/k4geo/FCCee)
-    INSTALL(DIRECTORY ${OUTPUT_DIR} DESTINATION share/k4geo/FCCee/MDI/compact/MDI_o1_v01/stl_files )
+    INSTALL(DIRECTORY ${OUTPUT_DIR} DESTINATION share/k4geo/FCCee/MDI/compact/stl_files )
 
 endif()
