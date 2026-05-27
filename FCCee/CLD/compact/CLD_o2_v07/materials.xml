@@ -227,4 +227,16 @@
       <fraction n="0.156851578703752" ref="O"/>
     </material>
 
+    <!-- =================================================================== -->
+    <!--  BIB MODE: DefaultMaterial required by Beampipe_STL (CAD beampipe). -->
+    <!--  Physically equivalent to Vacuum.                                   -->
+    <!--  See k4geo PR #534 for the upstream context.                        -->
+    <!-- =================================================================== -->
+    <material name="DefaultMaterial" state="gas">
+      <D type="density" unit="g/cm3" value="0.0000000001"/>
+      <fraction n="0.754" ref="N"/>
+      <fraction n="0.234" ref="O"/>
+      <fraction n="0.012" ref="Ar"/>
+    </material>
+
 </materials>
