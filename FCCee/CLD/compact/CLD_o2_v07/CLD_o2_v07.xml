@@ -3,12 +3,18 @@
     xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
 
     <info name="CLD_o2_v07"
-        title="FCCee detector model option 2 version 07 (updated TrackerBarrel)"
-        author="Andre Sailer, Leonhard Reichenbach"
+        title="FCCee detector model option 2 version 07 (updated TrackerBarrel) - BIB MODE"
+        author="Andre Sailer, Leonhard Reichenbach; BIB patches by Adrien Sabard"
         url="http://ilcsoft.desy.de"
         status="development"
         version="7">
-        <comment>The compact format for the FCCee Detector design</comment>
+        <comment>
+            BIB-studies variant of CLD_o2_v07.
+            - Shape-based beampipe replaced by CAD model (MDI_o1_CADBased_v01)
+            - World material set to Vacuum (workaround for air inside CAD beampipe)
+            - Analytical compensating solenoids disabled (field map from CAD MDI import)
+            To revert to physics mode, toggle the BIB comment blocks back to the original.
+        </comment>
     </info>
 
     <includes>
@@ -308,9 +314,20 @@
 
     <include ref="${DD4hepINSTALL}/DDDetectors/compact/detector_types.xml"/>
 
+    <!-- ================================================================== -->
+    <!--   BIB MODE : shape-based beampipe disabled, CAD beampipe activated   -->
+    <!--   Original lines kept for reference (toggle the comments to revert) -->
+    <!-- ================================================================== -->
+
+    <!-- BIB: shape-based beampipe disabled (replaced by CAD below)
     <include ref="Beampipe_o4_v05.xml"/>
 
     <include ref="BeamInstrumentation_o3_v02_fitShield.xml"/>
+    -->
+
+    <!-- BIB: CAD-based beampipe (requires k4geo built with -D INSTALL_BEAMPIPE_STL_FILES=ON) -->
+    <include ref="../../../MDI/compact/MDI_o1_CADBased_v01/MDI_o1_CADBased_v01_collection.xml" />
+    <world material="Vacuum"/>
 
     <include ref="LumiCal_o3_v02_05.xml"/>
 
@@ -398,6 +415,12 @@
              outer_radius="Solenoid_Coil_radius">
       </field>
 
+      <!-- ============================================================== -->
+      <!--   BIB MODE : analytical compensating solenoids disabled.        -->
+      <!--   The field map is provided by the CAD MDI import above.        -->
+      <!--   Toggle these comments back on to restore the analytical fields-->
+      <!-- ============================================================== -->
+      <!--
       <field name="CompensatingSolenoidZplus" type="solenoid"
              inner_field="-SolenoidField -SolenoidField * QD0_min_z / ( QD0_min_z - CompSol_min_z)"
              outer_field="0*tesla"
@@ -413,6 +436,7 @@
              zmax="-CompSol_min_z"
              outer_radius="20*cm">
       </field>
+      -->
 
 <!-- Detailed field map -->
 <!--field name="TestField" type="FieldXYZ"
