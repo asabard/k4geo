@@ -23,7 +23,8 @@
     </includes>
 
     <define>
-        <constant name="world_side" value="6100*mm"/>
+       <constant name="world_side" value="12500*mm"/>   <!-- BIB: enlarged to fit QC2L2 and BeamPipe_end -->
+        <!-- <constant name="world_side" value="6100*mm"/> -->
         <constant name="world_x" value="world_side"/>
         <constant name="world_y" value="world_side"/>
         <constant name="world_z" value="world_side"/>
